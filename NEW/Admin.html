@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food App Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="script" href="script.js">
+    <link rel="profil" href="profil.html">
+</head>
+<body>
+<div class="container" id="loginSection">
+    
+    <h2 class="login-title">Admin Login</h2>
+    <form id="loginForm">
+        <div class="mb-3">
+            <input type="email" class="form-control" placeholder="Admin Email" id="email" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Admin Password" id = "password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login as Admin</button>
+    </form>
+</div>
+
+    <!-- Admin Dashboard -->
+   
+    <div class="container mt-5" id="dashboardSection" style="display: none;">
+        <div class="mt-1">
+            <nav class="nav nav-pills flex-column flex-sm-row">
+                <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Active</a>
+                <a class="flex-sm-fill text-sm-center nav-link" href="profil.html">Longer nav link</a>
+                <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
+                <a class="flex-sm-fill text-sm-center nav-link disabled" aria-disabled="true">Disabled</a>
+              </nav>
+         </div>
+        <h2>Food App Dashboard</h2> 
+        
+        <!-- Menu Management -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Menu Management</h4>
+            </div>
+            <div class="card-body">
+                <form id="menuForm">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Food Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" placeholder="Description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" placeholder="Price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Food Image</label>
+                        <input type="file" class="form-control" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Menu Item</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Current Menu Items -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Current Menu Items</h4>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuItems">
+                        <!-- Menu items will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="script.js"></script>
+    
+</body>
+</html>

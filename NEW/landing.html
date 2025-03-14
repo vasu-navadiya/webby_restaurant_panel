@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to FoodApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dark) !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 120px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-illustration {
+            position: relative;
+            padding: 2rem;
+        }
+
+        .floating-icons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+        }
+
+        .floating-icons i {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 2rem;
+            animation: float 6s infinite;
+        }
+
+        .floating-icons i:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 0s;
+        }
+
+        .floating-icons i:nth-child(2) {
+            bottom: 0;
+            left: 0;
+            animation-delay: 2s;
+        }
+
+        .floating-icons i:nth-child(3) {
+            bottom: 0;
+            right: 0;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .cta-section {
+            background: #f7fafc;
+            padding: 100px 0;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        /* Food Animation Styles */
+        .food-animation-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .floating-food {
+            position: absolute;
+            opacity: 0;
+            animation: floatFood 8s infinite;
+        }
+
+        .floating-food i {
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Position food icons */
+        .floating-food:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .floating-food:nth-child(2) { left: 30%; animation-delay: 1s; }
+        .floating-food:nth-child(3) { left: 50%; animation-delay: 2s; }
+        .floating-food:nth-child(4) { left: 70%; animation-delay: 3s; }
+        .floating-food:nth-child(5) { left: 90%; animation-delay: 4s; }
+
+        @keyframes floatFood {
+            0% {
+                transform: translateY(200px) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Food Category Cards */
+        .food-category {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .food-category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .food-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .food-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Pulse Animation for CTA */
+        .pulse-btn {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+
+        .booking-animation-container {
+            position: relative;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .table-layout {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .table-layout i {
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Update hero section text */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 120px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-food i {
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Update floating icons for booking theme */
+        .floating-food:nth-child(1) i { content: "\f073"; } /* calendar */
+        .floating-food:nth-child(2) i { content: "\f017"; } /* clock */
+        .floating-food:nth-child(3) i { content: "\f0ce"; } /* table */
+        .floating-food:nth-child(4) i { content: "\f879"; } /* chair */
+        .floating-food:nth-child(5) i { content: "\f029"; } /* qr-code */
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">FoodApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item ms-2"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item ms-2"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item ms-2"><a class="nav-link" href="/Final_Admin">Login</a></li>
+                    <li class="nav-item ms-2"><a class="btn btn-primary" href="/Register_page">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center hero-content">
+                <div class="col-lg-6 text-white">
+                    <h1 class="display-4 fw-bold mb-4">Restaurant Admin Dashboard</h1>
+                    <p class="lead mb-4">Take control of your restaurant operations with our comprehensive management system.</p>
+                    <div class="d-flex gap-3">
+                        <a href="/Register_page" class="btn btn-light btn-lg pulse-btn">Get Started</a>
+                        <a href="#features" class="btn btn-outline-light btn-lg">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="food-animation-container">
+                        <div class="floating-food"><i class="fas fa-chart-line"></i></div>
+                        <div class="floating-food"><i class="fas fa-users"></i></div>
+                        <div class="floating-food"><i class="fas fa-cog"></i></div>
+                        <div class="floating-food"><i class="fas fa-database"></i></div>
+                        <div class="floating-food"><i class="fas fa-chart-pie"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Admin Dashboard Features</h2>
+                <p class="text-muted">Everything you need to manage your restaurant</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Analytics Dashboard</h3>
+                        <p class="text-muted">Track performance metrics and insights in real-time.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Menu Management</h3>
+                        <p class="text-muted">Effortlessly add, edit, or delete food items in real time.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3 class="h5 fw-bold">Data Management</h3>
+                        <p class="text-muted">Organize and manage all your restaurant data securely.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number">1000+</div>
+                        <p class="text-muted mb-0">Restaurants</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number">50K+</div>
+                        <p class="text-muted mb-0">Orders Processed</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="stats-number">99%</div>
+                        <p class="text-muted mb-0">Customer Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Replace the Popular Categories section with this new Booking Features section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">Smart Booking Features</h2>
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="food-category">
+                        <i class="fas fa-calendar-check food-icon"></i>
+                        <h5 class="mb-2">Easy Booking</h5>
+                        <p class="text-muted mb-0">Quick table reservations</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="food-category">
+                        <i class="fas fa-clock food-icon"></i>
+                        <h5 class="mb-2">Real-time</h5>
+                        <p class="text-muted mb-0">Live availability</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="food-category">
+                        <i class="fas fa-bell food-icon"></i>
+                        <h5 class="mb-2">Notifications</h5>
+                        <p class="text-muted mb-0">Instant updates</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="food-category">
+                        <i class="fas fa-qrcode food-icon"></i>
+                        <h5 class="mb-2">QR Check-in</h5>
+                        <p class="text-muted mb-0">Contactless entry</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Update the Why Choose Us section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-4">Why Choose Our Booking Platform?</h2>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-3">
+                            <i class="fas fa-check-circle text-success fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Smart Table Management</h5>
+                            <p class="text-muted mb-0">Efficiently manage your restaurant seating</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-3">
+                            <i class="fas fa-check-circle text-success fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Instant Confirmations</h5>
+                            <p class="text-muted mb-0">Automated booking confirmations</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-check-circle text-success fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Analytics & Insights</h5>
+                            <p class="text-muted mb-0">Track booking patterns and optimize</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="booking-animation-container">
+                        <div class="table-layout">
+                            <i class="fas fa-chair fa-2x text-primary"></i>
+                            <i class="fas fa-table fa-3x text-primary"></i>
+                            <i class="fas fa-chair fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Ready to Modernize Your Restaurant Booking?</h2>
+            <p class="lead text-muted mb-4">Join restaurants that are transforming their booking experience</p>
+            <a href="/Register_page" class="btn btn-primary btn-lg pulse-btn">
+                Register & Grow! <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">FoodApp</h5>
+                    <p class="text-muted">Your complete restaurant management solution</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">Contact</h5>
+                    <p class="mb-1"><i class="fas fa-envelope me-2"></i> support@foodapp.com</p>
+                    <p class="mb-1"><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-4 mb-3 border-secondary">
+            <p class="text-center text-muted mb-0">&copy; 2024 FoodApp. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

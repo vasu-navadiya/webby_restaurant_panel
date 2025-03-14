@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Items</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      .hadding {
+        color: rgb(53, 6, 3);
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .container {
+        max-width: 1100px;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
+      body {
+        background: linear-gradient(
+            rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0.5)
+          ),
+          url("bgimg.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+      }
+      .sidebar {
+        background-color: #1a1a1a;
+        min-height: 100vh;
+        color: white;
+        position: fixed;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      }
+      .content {
+        padding: 30px;
+        position: relative;
+        left: 17%;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        margin: 20px;
+      }
+      .card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+      .card-header {
+        background-color: #343a40;
+        color: white;
+        padding: 1rem;
+      }
+      .table img {
+        border-radius: 8px;
+        object-fit: cover;
+      }
+      .btn-success {
+        background-color: #28a745;
+        border: none;
+        padding: 10px 20px;
+      }
+      .btn-success:hover {
+        background-color: #218838;
+      }
+      .nav-item {
+        margin: 10px 0;
+      }
+      .nav-link {
+        transition: all 0.3s ease;
+        padding: 10px 15px;
+        border-radius: 5px;
+      }
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid" id="fooditems">
+      <div class="row">
+        <div class="col-md-3 col-lg-2 sidebar p-3">
+          <h3 class="mb-4">Admin Panel</h3>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <i class="bi bi-person me-2"></i>
+              <a href="/profile" class="nav-link text-white">Profile</a>
+            </li>
+            <li class="nav-item mb-2">
+              <i class="bi bi-speedometer2 me-2"></i>
+              <a href="/Dashboard" class="nav-link text-white">Dashboard</a>
+            </li>
+            <li class="nav-item mb-2">
+              <i class="bi bi-basket me-2"></i>
+              <a href="/fooditem" class="nav-link text-white">Food Items</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-9 col-lg-10 mt-10 content">
+          <h2 class="hadding">Food App Dashboard</h2>
+
+          <!-- Menu Management -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h4>Menu Management</h4>
+            </div>
+            <div class="card-body">
+              <form
+                id="menuForm"
+                action="/fooditem/update"
+                method="post"
+                enctype="multipart/form-data"
+              >
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    placeholder="Food Name"
+                    value="<%= name %>"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <textarea
+                    name="description"
+                    class="form-control"
+                    placeholder="Description"
+                    value="<%= description %>"
+                  ></textarea>
+                </div>
+                <div class="mb-3">
+                  <input
+                    type="number"
+                    name="price"
+                    class="form-control"
+                    placeholder="Price"
+                    value="<%= price %>"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="category" class="form-label">Category</label>
+                  <select
+                    class="form-control"
+                    id="categories"
+                    name="category"
+                    value="<%= category %>"
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    <option value="fast-food">Fast Food</option>
+                    <option value="desserts">Desserts</option>
+                    <option value="beverages">Beverages</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label>Food Image</label>
+                  <input
+                    type="file"
+                    name="image"
+                    class="form-control"
+                    accept="image/*"
+                    value="<%= imageUrl %>"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-success">
+                  Add Menu Item
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Current Menu Items -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h4>Current Menu Items</h4>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <!-- <tbody id="menuItems" >
+                    <% menuItems.forEach((item, index) => { %>
+                      <tr>
+                          <td><%= index + 1 %></td>
+                          <td><img src="./public/images/<%=item.imageUrl %>" alt="Food Image" width="50"></td>
+                          <td><%= item.name %></td>
+                          <td><%= item.description %></td>
+                          <td><%= item.category %></td>
+                          <td>₹<%= item.price %></td>
+                          <td>
+                            <button class="btn btn-sm btn-warning" onclick="editItem('<%= item.originalIndex %>')">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteItem('<%= item.originalIndex %>')">Delete</button>
+                        </td>
+                        
+                        
+                        
+                      </tr>
+                  <% }); %>
+                     Menu items will be dynamically added here 
+                  </tbody> -->
+                <tbody id="menuItems">
+                  <% if (menuItems.length > 0) { %> <% menuItems.forEach((item,
+                  index) => { %>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td>
+                      <img
+                        src="/images/<%= item.imageUrl %>"
+                        alt="Food Image"
+                        width="50"
+                      />
+                    </td>
+                    <td><%= item.name %></td>
+                    <td><%= item.description %></td>
+                    <td><%= item.category %></td>
+                    <td>₹<%= item.price %></td>
+                    <td>
+                      <button
+                        class="btn btn-sm btn-warning"
+                        onclick="editItem('<%= index %>')"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-sm btn-danger"
+                        onclick="deleteItem('<%= index %>')"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <% }); %> <% } else { %>
+                  <tr>
+                    <td colspan="7" class="text-center">No menu items found</td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const menuForm = document.getElementById("menuForm");
+      const menuItemsTable = document.getElementById("menuItems");
+
+      let menuItems = [];
+
+
+      function addItem() {
+        const name = menuForm.querySelector('input[type="text"]').value;
+        const description = menuForm.querySelector("textarea").value;
+        const price = menuForm.querySelector('input[type="number"]').value;
+        const category = menuForm.querySelector("select").value;
+        const imageFile = menuForm.querySelector('input[type="file"]').files[0];
+
+        const imageUrl = imageFile ? URL.createObjectURL(imageFile) : "";
+
+        const menuItem = { name, description, price, category, imageUrl };
+
+        menuItems.push(menuItem);
+
+        localStorage.setItem("menuItems", JSON.stringify(menuItems));
+
+        displayMenuItemsByCategory(menuItems);
+
+        menuForm.reset();
+      }
+
+      function displayMenuItemsByCategory(menuItems) {
+        menuItemsTable.innerHTML = ""; // Clear current items
+
+        // Group items by category
+        const categories = {};
+        menuItems.forEach((item, originalIndex) => {
+          if (!categories[item.category]) {
+            categories[item.category] = [];
+          }
+          categories[item.category].push({ ...item, originalIndex });
+        });
+
+        Object.keys(categories).forEach((category) => {
+          const categoryRow = document.createElement("tr");
+          categoryRow.innerHTML = `
+              <td colspan="7" class="bg-secondary text-white fw-bold">
+                  ${category.toUpperCase()}
+              </td>
+          `;
+          menuItemsTable.appendChild(categoryRow);
+
+          categories[category].forEach((item, displayIndex) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                  <td>${displayIndex + 1}</td>
+                  <td><img src="${
+                    item.imageUrl
+                  }" style="width: 50px; height: 50px;"></td>
+                  <td>${item.name}</td>
+                  <td>${item.description}</td>
+                  <td>${item.category}</td>
+                  <td>₹${item.price}</td>
+                  <td>
+                      <button class="btn btn-sm btn-warning" onclick="editItem('${
+                        item.originalIndex
+                      }')">Edit</button>
+                      <button class="btn btn-sm btn-danger" onclick="deleteItem('${
+                        item.originalIndex
+                      }')">Delete</button>
+                  </td>
+              `;
+            menuItemsTable.appendChild(row);
+          });
+        });
+      }
+
+      function editItem(index) {
+        const item = menuItems[index];
+
+        menuForm.querySelector('input[type="text"]').value = item.name;
+        menuForm.querySelector("textarea").value = item.description;
+        menuForm.querySelector('input[type="number"]').value = item.price;
+        menuForm.querySelector("select").value = item.category;
+
+        menuItems.splice(index, 1);
+        localStorage.setItem("menuItems", JSON.stringify(menuItems));
+        displayMenuItemsByCategory(menuItems);
+      }
+
+      function deleteItem(index) {
+        menuItems.splice(index, 1);
+        localStorage.setItem("menuItems", JSON.stringify(menuItems));
+        displayMenuItemsByCategory(menuItems);
+      }
+      document.addEventListener("DOMContentLoaded", async function () {
+        try {
+          const response = await fetch("/fooditems"); // Call backend API
+          if (!response.ok) {
+            throw new Error("Failed to fetch menu items");
+          }
+
+          const menuItems = await response.json(); // Convert response to JSON
+          displayMenuItems(menuItems); // Function to display items
+        } catch (error) {
+          console.error("Error fetching menu:", error);
+        }
+      });
+
+      // Function to display menu items in HTML
+      function displayMenuItems(menuItems) {
+        const menuContainer = document.getElementById("menuItems"); // Get container
+
+        menuContainer.innerHTML = ""; // Clear existing content
+
+        menuItems.forEach((item, index) => {
+          const row = document.createElement("tr"); // Create table row
+          row.innerHTML = `
+      <td>${index + 1}</td>
+      <td><img src="${item.imageUrl}" alt="${
+            item.name
+          }" style="width: 50px; height: 50px;"></td>
+      <td>${item.name}</td>
+      <td>${item.description}</td>
+      <td>${item.category}</td>
+      <td>$${item.price}</td>
+    `;
+          menuContainer.appendChild(row);
+        });
+      }
+    </script>
+  </body>
+</html>

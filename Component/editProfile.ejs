@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+        }
+
+        body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        /* padding: 40px 0; */
+      }
+
+      
+        
+
+        .edit-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .page-title {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--primary-gradient);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .profile-image-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary-color);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #718096;
+            border: none;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1rem;
+            background: #f7fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--primary-color);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .form-section {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="edit-container">
+        <h2 class="page-title">
+          <i class="fas fa-user-edit me-2"></i>Edit Profile
+        </h2>
+        
+        <form action="/profile/update" method="POST" >
+          <!-- Profile Image Section -->
+          <input type="hidden" name="originalIndex" value="<%= user._id %>" />
+
+
+        
+
+          <!-- Basic Information -->
+          <div class="form-section">
+            <h3 class="section-title"><i class="fas fa-info-circle me-2"></i>Basic Information</h3>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="restaurantName" class="form-label">Restaurant Name</label>
+                <input type="text" class="form-control" id="restaurantName" 
+                       name="restaurantName" value="<%= user.restaurantName %>" required />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="ownerName" class="form-label">Owner Name</label>
+                <input type="text" class="form-control" id="ownerName" 
+                       name="ownerName" value="<%= user.ownerName %>" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" 
+                       name="email" value="<%= user.email %>" required />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" 
+                       name="phone" value="<%= user.phone %>" required />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="open" class="form-label">Opening time</label>
+                <input type="text" class="form-control" id="open" 
+                       name="open" value="<%= user.time.open %>" required />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="close" class="form-label">Closing time</label>
+                <input type="close" class="form-control" id="close" 
+                       name="close" value="<%= user.time.close %>" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Location Details -->
+          <div class="form-section">
+            <h3 class="section-title"><i class="fas fa-map-marker-alt me-2"></i>Location Details</h3>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="shopNo" class="form-label">Shop Number</label>
+                <input type="text" class="form-control" id="shopNo" 
+                       name="shopNo" value="<%= user.location.shopNo %>" required />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="floorNo" class="form-label">Floor Number</label>
+                <input type="text" class="form-control" id="floorNo" 
+                       name="floorNo" value="<%= user.location.floorNo %>" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="area" class="form-label">Area</label>
+                <input type="text" class="form-control" id="area" 
+                       name="area" value="<%= user.location.area %>" required />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" 
+                       name="city" value="<%= user.location.city %>" required />
+              </div>
+            </div>
+          </div>
+
+          <div class="buttons-container">
+            <!-- <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save me-2"></i>Update Profile
+            </button>
+            <a href="/profile" class="btn btn-secondary">
+              <i class="fas fa-times me-2"></i>Cancel
+            </a> -->
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Update Profile
+              </button>
+              <a href="/profile" class="btn btn-secondary">
+                <i class="fas fa-times me-2"></i>Cancel
+              </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+    <script>
+    //    function redirectToEdit(originalIndex, restaurantName, ownerName, phone, location) {
+    // const { shopNo, floorNo, area, city } = location;
+
+    // const url = `/profile/edit?originalIndex=${originalIndex}&restaurantName=${encodeURIComponent(
+    //     restaurantName
+    // )}&ownerName=${encodeURIComponent(ownerName)}&phone=${encodeURIComponent(phone)}
+    // &shopNo=${encodeURIComponent(shopNo)}&floorNo=${encodeURIComponent(floorNo)}
+    // &area=${encodeURIComponent(area)}&city=${encodeURIComponent(city)}`;
+
+    // window.location.href = url;
+// }
+
+    </script>
+  </body>
+</html>

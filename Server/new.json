@@ -1,0 +1,29 @@
+{
+    "_id": {
+      "$oid": "67c7336ee47d7e3d5040213a"
+    },
+    "restaurantName": "bhai bhai",
+    "ownerName": "qqqqq",
+    "email": "wh@gmail.com",
+    "phone": "1234567890",
+    "password": "$2b$10$h.2bjWA/y80eb0RSY4CTxOEwe9/mFaTdC.Kdqb1bd/LGDFfUo7NMK",
+    "description": "loremndnsdncddddddddddddddddddddddddddddddddddddcdm,vcxvcc",
+    "location": {
+      "shopNo": "111",
+      "floorNo": "11",
+      "area": "baroda",
+      "city": "wwwwww"
+    },
+    "time": {
+      "open": "10:00",
+      "close": "22:00"
+    },
+    "promoted": true,
+    "cuisine": "Japanese, Sushi, Seafood",
+    "address": "65 Haymarket, London SW1Y 4RL, United Kingdom",
+    
+    "createdAt": {
+      "$date": "2025-03-04T17:07:58.849Z"
+    },
+    "__v": 0
+  }
