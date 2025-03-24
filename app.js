@@ -72,53 +72,7 @@ const storage = new CloudinaryStorage({
 // Multer Middleware (Using Cloudinary Storage)
 const upload = multer({ storage: storage });
 
-// // Configure Multer storage
-// // const storage = multer.diskStorage({
-// //   destination: function (req, file, cb) {
-// //     cb(null, "./public/images");
-// //   },
-// //   filename: function (req, file, cb) {
-// //     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-// //     cb(
-// //       null,
-// //       file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-// //     );
-// //   },
-// // });
 
-// // const upload = multer({ storage: storage });
-// // const storage = multer.diskStorage({
-// //   destination: function (req, file, cb) {
-// //     cb(null, "./public/images"); // Save to public/images
-// //   },
-// //   filename: function (req, file, cb) {
-// //     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-// //     cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
-// //   },
-// // });
-
-// // const upload = multer({
-// //   storage: storage,
-// //   limits: { fileSize: 5 * 1024 * 1024 }, // Increase to 5MB per file
-// // })
-// const storagem = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "./public/images");
-//   },
-//   filename: function (req, file, cb) {
-//     crypto.randomBytes(10, (err, buf) => {
-//       let fn = buf.toString("hex")+ path.extname(file.originalname);
-//       console.log(fn)
-//       cb(null, fn);
-//     });
-//   },
-// });
-
-// const upload = multer({ storage: storagem });
-
-// app.use("/uploads", express.static("uploads"));
-
-// Serve static files (like Register_page.html)
 app.use(express.static(path.join(__dirname, "../Component")));
 
 // Home route
