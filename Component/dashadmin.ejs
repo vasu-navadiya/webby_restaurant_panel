@@ -531,6 +531,7 @@
 @media (max-width: 768px) {
     .mobile-menu-toggle {
         display: flex !important;
+        
     }
 
     .sidebar {
@@ -555,6 +556,7 @@
 
     .row.g-3 {
         margin: 0 -0.5rem;
+        
     }
 
     .col-md-4 {
@@ -667,68 +669,22 @@
                 <div class="dashboard-card bg-white">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="card-title text-muted mb-0">Today's Bookings Overview</h5>
-                    <span class="badge bg-primary px-3 py-2 mt-2">
-                      <i class="far fa-calendar-alt me-2"></i>
-                      <%= new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
-                    </span>
+                    
                   </div>
-                  <!-- <div class="row g-3">
-                    <div class="col-md-4">
-                      <div class="p-3 rounded-3" style="background: #e3f2fd;">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div>
-                            <h3 class="mb-1 fw-bold text-primary"><%= todayBooking %></h3>
-                            <span class="text-muted">Today Bookings</span>
-                          </div>
-                          <div class="rounded-circle p-3" style="background: #bbdefb;">
-                            <i class="fas fa-calendar-check text-primary"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="p-3 rounded-3" style="background: #e8f5e9;">
-                        <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h3 class="mb-1 fw-bold text-success">
-                              <%= monthlyBookings[new Date().toISOString().slice(0, 7)]?.totalBookings || 0 %>
-                            </h3>
-                            <span class="text-muted">Monthly Bookings</span>
-                          </div>
-                          
-                          <div class="rounded-circle p-3" style="background: #c8e6c9;">
-                            <i class="fas fa-check-circle text-success"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="p-3 rounded-3" style="background: #fff3e0;">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div>
-                            <h3 class="mb-1 fw-bold text-warning"><%= totalPersons %></h3>
-                            <span class="text-muted">Total person</span>
-                          </div>
-                          <div class="rounded-circle p-3" style="background: #ffe0b2;">
-                            <i class="fas fa-clock text-warning"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
+
                   <% 
   const now = new Date();
   const currentMonthKey = `${now.getFullYear().toString().slice(-2)}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 %>
 
-<div class="row g-3">
+<div class="row">
   <!-- Today's Bookings -->
   <div class="col-md-4">
     <div class="p-3 rounded-3" style="background: #e3f2fd;">
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <h3 class="mb-1 fw-bold text-primary"><%= totalBooking %></h3>
-          <span class="text-muted">Today Bookings</span>
+          <span class="text-muted">Total Bookings</span>
         </div>
         <div class="rounded-circle p-3" style="background: #bbdefb;">
           <i class="fas fa-calendar-check text-primary"></i>
@@ -737,22 +693,7 @@
     </div>
   </div>
 
-  <!-- Monthly Bookings -->
-  <div class="col-md-4">
-    <div class="p-3 rounded-3" style="background: #e8f5e9;">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h3 class="mb-1 fw-bold text-success">
-            <%= monthlyBookings[currentMonthKey]?.totalBookings || 0 %>
-          </h3>
-          <span class="text-muted">Monthly Bookings</span>
-        </div>
-        <div class="rounded-circle p-3" style="background: #c8e6c9;">
-          <i class="fas fa-check-circle text-success"></i>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 
   <!-- Total Persons -->
   <div class="col-md-4">
@@ -768,7 +709,29 @@
       </div>
     </div>
   </div>
+  <!-- Monthly Bookings -->
+  <div class="col-md-4">
+    <div class="p-3 rounded-3" style="background: #e8f5e9;">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <!-- Today's Date -->
+          <h3 class="mb-1 fw-bold text-success">
+            <%= new Date().toLocaleDateString('en-US', { day: 'numeric' }) %>
+          </h3>
+          <span class="text-muted">
+            <%= new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) %>
+          </span>
+        </div>
+        <div class="rounded-circle p-3" style="background: #c8e6c9;">
+          <i class="fas fa-calendar-alt text-success"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </div>
+
+
 
                 </div>
               </div>
@@ -794,7 +757,7 @@
                         <th>Time Slot</th>
                         <th>Persons</th>
                         <th>Contact</th>
-                        <th>Status</th>
+                        
                          <th>Actions</th>
                       </tr>
                       <tbody>
@@ -823,13 +786,7 @@
                             </td>
                             <td><%= booking.userId.
                               phoneNumber %></td>
-                            <td>
-                              <% let statusClass = ''; %>
-                              <% if(booking.status === 'Confirmed') { statusClass = 'bg-success'; } %>
-                              <% if(booking.status === 'Pending') { statusClass = 'bg-warning'; } %>
-                              <% if(booking.status === 'Cancelled') { statusClass = 'bg-danger'; } %>
-                              <span class="badge <%= statusClass %>">Pending</span>
-                            </td>
+                          
                             <td>
                               <div class="d-flex gap-2">
                                 <form action="/Dashboard/delete/<%= booking._id %>" method="post">
@@ -885,16 +842,61 @@
   const totalcategory = category.length;
   document.getElementById("totalcategory").textContent = totalcategory;
 }
+// let previousCount = 0;
+
+// async function checkNewBookings() {
+//   try {
+//     const response = await fetch('/api/booking-count');
+//     const data = await response.json();
+//     const currentCount = data.totalBooking;
+
+//     if (currentCount > previousCount) {
+//       alert(`New booking received! Total bookings: ${currentCount}`);
+//     }
+
+//     previousCount = currentCount;
+//   } catch (error) {
+//     console.error("Error fetching booking count:", error);
+//   }
+// }
+
+// // Check every 5 seconds (5000 milliseconds)
+// setInterval(checkNewBookings, 500);
+// let previousCount = 0;
+
+// async function checkNewBookings() {
+//   try {
+//     const response = await fetch('/api/booking-count');
+//     const data = await response.json();
+//     const currentCount = data.totalBooking;
+
+//     if (currentCount > previousCount) {
+//       alert(`New booking received! Total bookings: ${currentCount}`);
+//       window.location.reload(); // Refresh the page when a new booking arrives
+//     }
+
+//     previousCount = currentCount;
+//   } catch (error) {
+//     console.error("Error fetching booking count:", error);
+//   }
+// }
+
+// // Check every 5 seconds (5000 milliseconds)
+// setInterval(checkNewBookings, 5000);
 let previousCount = 0;
+let newBookingNotified = false; // To prevent repeated alerts
 
 async function checkNewBookings() {
   try {
     const response = await fetch('/api/booking-count');
     const data = await response.json();
-    const currentCount = data.totalBookings;
+    const currentCount = data.totalBooking;
 
-    if (currentCount > previousCount) {
+    // Check for new booking only once
+    if (currentCount > previousCount && !newBookingNotified) {
+      newBookingNotified = true; // Prevent further alerts
       alert(`New booking received! Total bookings: ${currentCount}`);
+      window.location.reload(); // Refresh the page
     }
 
     previousCount = currentCount;
@@ -903,8 +905,23 @@ async function checkNewBookings() {
   }
 }
 
-// Check every 5 seconds (5000 milliseconds)
-setInterval(checkNewBookings, 500);
+// Fetch the initial count when the page loads
+async function initializeBookingCount() {
+  try {
+    const response = await fetch('/api/booking-count');
+    const data = await response.json();
+    previousCount = data.totalBooking;
+  } catch (error) {
+    console.error("Error fetching initial booking count:", error);
+  }
+}
+
+// Initialize count and start checking every 5 seconds
+document.addEventListener('DOMContentLoaded', async () => {
+  await initializeBookingCount();
+  setInterval(checkNewBookings, 5000);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const sidebar = document.querySelector('.sidebar');

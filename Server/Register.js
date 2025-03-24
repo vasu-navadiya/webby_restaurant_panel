@@ -67,13 +67,14 @@
     resetPasswordExpire: { type: Date},
     createdAt: { type: Date, default: Date.now },
     image: [String],
-    rating: { type: Number, default: 0 },
+    rating: {type:Number,required:false},
     description: { type: String },
       promoted: { type: Boolean, default: false },
     cordinates: {
         latitude:{type: Number},
         longitude:{type: Number} 
         },
+    pureVeg:{type:Boolean,default:true}
   });
 
   const RestaurantModel = mongoose.model("restaurantdata", restroSchema);

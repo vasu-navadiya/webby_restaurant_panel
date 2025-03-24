@@ -10,33 +10,27 @@ const BookingsModel = require("./Server/bookings.model.js");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
-// const fileUpload = require("express-fileupload");
+
 dotenv.config();
 const app = express();
 const port = 3001;
 const bcrypt = require("bcryptjs");
 const JWT_SECRET = process.env.JWT_SECRET || "polytechnic,themsu";
 const cors = require("cors");
-
-// Middleware to parse JSON and URL-encoded data
-// app.use(cors({ origin: "https://webby-puce.vercel.app", credentials: true }));
+app.use(cors());
 app.use(express.json({limit: "50mb"}));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true , limit: "50mb"}));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs"); // Set EJS as the template engine
 app.set("views", path.join(__dirname, "Component")); // Tell Express where to find .ejs files
-const session = require("express-session");
+
 const { register } = require("module");
 const nodemailer = require("nodemailer");
 const UserModel = require("./Server/user.model.js");
 const fileUpload = require('express-fileupload');
 
-// Configure file upload middleware
-// app.use(fileUpload({
-//   useTempFiles: true,
-//   tempFileDir: '/tmp/'  // Vercel allows writing here
-// }));
+
 
 
 const cloudinary = require("cloudinary").v2;
@@ -45,21 +39,7 @@ const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const RestaurantModel = require("./Server/Register.js");
 
-// // // Configure Cloudinary
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
-// const storage = new CloudinaryStorage({
-//   cloudinary: cloudinary,
-//   params: {
-//     folder: "restaurant-gallery", // Cloudinary folder name
-//     format: async (req, file) => "jpeg", // Convert all images to JPEG (optional)
-//     allowed_formats: ["jpg", "png", "jpeg"], // Allowed formats
-//   },
-// });
-// // Connect to MongoDB
+
 const connectToDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
@@ -150,128 +130,8 @@ app.get("/Register_page", (req, res) => {
   res.render("Register_page"); // This should work now
 });
 
-// app.post("/Register_page", async (req, res) => {
-//   try {
-//     const {
-//       restaurantName,
-//       ownerName,
-//       email,
-//       phone,
-//       password,
-//       shopNo,
-//       floorNo,
-//       image,
-//       area,
-//       city,
-//       open,
-//       close,
-//       cuisine,
-//     } = req.body;
-
-//     // Hash password before saving
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Save user in MongoDB
-//     const newUser = await RestroData.create({
-//       restaurantName,
-//       ownerName,
-//       email,
-//       phone,
-//       password: hashedPassword, // Save hashed password
-//       cuisine,
-//       location: {
-//         shopNo,
-//         floorNo,
-//         area,
-//         city,
-//       },
-//       image,
-//       time: {
-//         open,
-//         close,
-//       },
-//     });
-//     const token = jwt.sign({ id: newUser._id }, JWT_SECRET, {
-//       expiresIn: "7d",
-//     });
-//     res.cookie("token", token, {
-//       httpOnly: true,
-//       secure: true, // Set `true` if using HTTPS
-//       sameSite: "strict", // Set `none` if using cross-site requests
-//     });
-//     // console.log("Data received:", req.body);
-//     // res.redirect("/Final_Admin");
-//     res.redirect("/uploadImage");
-//     // res.status(201).json({ message: "Registration successful", user: newUser });
-//     // res.redirect("/Final_Admin")
-//   } catch (error) {
-//     console.error("Registration Error:", error);
-//     res.status(500).json({ message: "Error registering user" });
-//   }
-// });
-
-// app.post("/Register_page", upload.array("galleryImages"), async (req, res) => {
-//   try {
-//     const {
-//       restaurantName,
-//       ownerName,
-//       email,
-//       phone,
-//       password,
-//       shopNo,
-//       floorNo,
-//       area,
-//       city,
-//       open,
-//       close,
-//       cuisine
-//     } = req.body;
 
 
-//     // Hash password before saving
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Upload images to Cloudinary
-//     const imageUrls = 
-
-//     // Function to save restaurant after uploading images
-//     async function saveRestaurant() {
-//       const newUser = await RestaurantModel.create({
-//         restaurantName,
-//         ownerName,
-//         email,
-//         phone,
-//         password: hashedPassword,
-//         cuisine,
-//         location: {
-//           shopNo,
-//           floorNo,
-//           area,
-//           city,
-//         },
-//         time: {
-//           open,
-//           close,
-//         },
-//         image: imageUrls,
-//       });
-
-//       const token = jwt.sign({ id: newUser._id }, JWT_SECRET, {
-//         expiresIn: "7d",
-//       });
-//       res.cookie("token", token, {
-//         httpOnly: true,
-//         secure: true,
-//         sameSite: "strict",
-//       });
-
-//       res.redirect("/Final_Admin");
-//     }
-//   } catch (error) {
-//     console.error("Registration Error:", error);
-//     res.status(500).json({ message: "Error registering user" });
-//   }
-// });
 
 app.post("/Register_page", upload.array("galleryImages", 5), async (req, res) => {
   try {
@@ -289,8 +149,12 @@ app.post("/Register_page", upload.array("galleryImages", 5), async (req, res) =>
       city,
       open,
       close,
-      cuisine
+      cuisine,
+      restaurantType // Capture the restaurant type (Veg/Non-Veg) from the form
     } = req.body;
+    
+    // Set pureVeg based on the selected restaurant type
+    const pureVeg = restaurantType === "Veg";
 
     // Hash password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -304,6 +168,13 @@ app.post("/Register_page", upload.array("galleryImages", 5), async (req, res) =>
         return result.secure_url;
       })
     );
+    // console.log("Request Body:", req.body);
+    // const getRandomRating = () => (Math.random() * (5 - 3) + 3).toFixed(1);
+    const getRandomRating = () => {
+      const ratings = [3.0, 3.5, 4.0, 4.5, 5.0];
+      return ratings[Math.floor(Math.random() * ratings.length)];
+    };
+    
 
     // Save the restaurant in MongoDB
     const newUser = await RestaurantModel.create({
@@ -313,12 +184,12 @@ app.post("/Register_page", upload.array("galleryImages", 5), async (req, res) =>
       phone,
       password: hashedPassword,
       cuisine,
+      pureVeg, // Store pureVeg in the database
       location: {
         shopNo,
         floorNo,
         area,
         city,
-        
       },
       cordinates: {
         latitude,
@@ -328,7 +199,8 @@ app.post("/Register_page", upload.array("galleryImages", 5), async (req, res) =>
         open,
         close,
       },
-      image: imageUrls, // Save image URLs in MongoDB
+      image: imageUrls, 
+      rating: getRandomRating(), // Save image URLs in MongoDB
     });
 
     const token = jwt.sign({ id: newUser._id }, JWT_SECRET, {
@@ -441,7 +313,7 @@ app.get("/Dashboard", verifyToken, async (req, res) => {
     const today = new Date();
     const todayString = `${today.getDate().toString().padStart(2, "0")}-${(today.getMonth() + 1).toString().padStart(2, "0")}-${today.getFullYear().toString().slice(-2)}`;
     const todayBooking = bookings.filter((booking) => booking.selectedDate === todayString).length;
-
+    const totalMonthlyBookings = Object.values(monthlyBookings).reduce((sum, month) => sum + month.totalBookings, 0);
     // 🌟 Render the dashboard
     res.render("dashadmin", {
       totalItems,
@@ -451,6 +323,7 @@ app.get("/Dashboard", verifyToken, async (req, res) => {
       totalPersons,
       monthlyBookings,
       todayBooking,
+      totalMonthlyBookings,
     });
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -483,88 +356,6 @@ app.get("/fooditem", verifyToken, async (req, res) => {
   }
 });
 app.use(fileUpload({ useTempFiles: true ,tempFileDir: '/tmp/'}));
-// app.post("/fooditem", verifyToken, async (req, res) => {
-//   try {
-//     if (!req.files || !req.files.image) {
-//       return res.status(400).json({ message: "No image uploaded" });
-//     }
-
-//     const file = req.files.image;
-
-//     // Upload file to Cloudinary
-//     const result = await cloudinary.uploader.upload(file.tempFilePath);
-
-//     const { name, description, price, category, isVeg } = req.body;
-//     const imageUrl = result.secure_url; // Get image URL from Cloudinary
-
-//     const newMenuItem = {
-//       name,
-//       description,
-//       price,
-//       category,
-//       imageUrl,
-//       isVeg: isVeg === "on" || isVeg === true,
-//     };
-
-//     let menuDoc = await Menu.findOne({ restaurant_id: req.userId });
-
-//     if (!menuDoc) {
-//       menuDoc = new Menu({
-//         restaurant_id: req.userId,
-//         menu: [newMenuItem],
-//       });
-//     } else {
-//       menuDoc.menu.push(newMenuItem);
-//     }
-
-//     await menuDoc.save();
-//     res.redirect("/fooditem");
-//   } catch (error) {
-//     console.error("Error adding food item:", error);
-//     res.status(500).json({ message: "Error adding food item" });
-//   }
-// });
-// Updated fooditem POST route
-// app.post("/fooditem", verifyToken, upload.single("image"), async (req, res) => {
-//   try {
-//     const { name, description, price, category, isVeg } = req.body;
-//      const imageUrl = `/images/${req.file.filename}`;
-//
-//
-
-//     const newMenuItem = {
-//       name,
-//       description,
-//       price,
-//       category,
-//       imageUrl,
-//       isVeg: isVeg === "on" || isVeg === true,
-//     };
-
-//     // Find the menu document for this restaurant or create if it doesn't exist
-//     let menuDoc = await Menu.findOne({ restaurant_id: req.userId });
-
-//     if (!menuDoc) {
-//       // Create a new menu document if one doesn't exist
-//       menuDoc = new Menu({
-//         restaurant_id: req.userId,
-//         menu: [newMenuItem],
-//       });
-//       await menuDoc.save();
-//     } else {
-//       // Add the new item to the existing menu
-//       menuDoc.menu.push(newMenuItem);
-//       await menuDoc.save();
-//     }
-
-//     res.redirect("/fooditem");
-//   } catch (error) {
-//     console.error("Error adding food item:", error);
-//     res.status(500).json({ message: "Error adding food item" });
-//   }
-// });
-
-// // Updated edit route
 
 app.post("/fooditem", verifyToken, async (req, res) => {
   try {
@@ -583,16 +374,16 @@ app.post("/fooditem", verifyToken, async (req, res) => {
     // Upload file to Cloudinary
     const result = await cloudinary.uploader.upload(file.tempFilePath);
 
-    const { name, description, price, category, isVeg } = req.body;
+    const { name, description, price, category, foodType } = req.body;
     const imageUrl = result.secure_url; // Get image URL from Cloudinary
-
+    const isVeg = foodType === "vegetarian";
     const newMenuItem = {
       name,
       description,
       price,
       category,
       imageUrl,
-      isVeg: isVeg === "on" || isVeg === true,
+      isVeg
     };
 
     let menuDoc = await Menu.findOne({ restaurant_id: req.userId });
@@ -793,12 +584,14 @@ app.get("/profile/edit/:id", async (req, res) => {
     user,
   });
 });
+
 app.post("/profile/update", verifyToken, async (req, res) => {
   try {
-    const { restaurantName, ownerName, phone, shopNo, floorNo, area, city ,open,close} =
-      req.body;
-    // console.log("Received Data:", req.body); // Log input data
-    // Find and update user profile
+    const { restaurantName, ownerName, phone, shopNo, floorNo, area, city, open, close, restrotype,email } = req.body;
+
+    // Determine pureVeg based on the selected radio button
+    const pureVeg = restrotype === "vegetarian";
+
     const updatedUser = await RestroData.findByIdAndUpdate(
       req.userId, // Get user ID from token
       {
@@ -806,19 +599,20 @@ app.post("/profile/update", verifyToken, async (req, res) => {
         ownerName,
         phone,
         location: { shopNo, floorNo, area, city },
-        time:{open,close},
+        time: { open, close },
+        pureVeg,
+        email
       },
-      { new: true } // Return the updated document
+      { new: true }
     );
-    // Redirect to profile after update
 
-    // res.json({ message: "Profile updated successfully", user: updatedUser });
-    res.redirect("/profile"); // Redirect to profile after update
+    res.redirect("/profile"); // Redirect after update
   } catch (error) {
     console.error("Error updating profile:", error);
     res.status(500).json({ message: "Error updating profile" });
   }
 });
+
 
 app.get("/menu/:id", async (req, res) => {
   try {
@@ -874,7 +668,7 @@ app.post("/forgot-password", async (req, res) => {
       },
     });
 
-    const resetLink = `http://localhost:3001/reset-password/${resetToken}`;
+    const resetLink = `https://webby-puce.vercel.app/reset-password/${resetToken}`;
 
     const mailOptions = {
       to: user.email,
@@ -890,6 +684,25 @@ app.post("/forgot-password", async (req, res) => {
     res
       .status(500)
       .json({ message: "Internal Server Error", error: error.message });
+  }
+});
+app.get('/check-email', async (req, res) => {
+  const { email } = req.query;
+
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+
+  try {
+    const existingRestaurant = await RestaurantModel.findOne({ email });
+    if (existingRestaurant) {
+      return res.json({ exists: true });
+    } else {
+      return res.json({ exists: false });
+    }
+  } catch (error) {
+    console.error('Error checking email:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

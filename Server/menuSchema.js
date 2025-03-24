@@ -34,7 +34,7 @@ const menuItemSchema = new mongoose.Schema({
     },
     isVeg: {
         type: Boolean,
-        default: false
+        default: true
     },
     imageUrl: {
         type: String,

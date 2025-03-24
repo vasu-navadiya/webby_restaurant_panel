@@ -19,7 +19,9 @@ const bookingsSchema = new mongoose.Schema({
   membersCount: { type: Number, required: true },
   selectedDate: { type: String, required: true },
   selectedTimeSlot: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
   // status: { type: String, enum: ['Pending', 'Confirmed', 'Cancelled'], default: 'Pending' }
+  // monthly:{type:Number}
 });
 const BookingsModel = mongoose.model("booking", bookingsSchema);
 module.exports = BookingsModel;
